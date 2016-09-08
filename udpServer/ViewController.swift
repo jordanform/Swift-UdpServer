@@ -16,6 +16,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var txtfieldPortNum: UITextField!
     @IBOutlet weak var webView: UIWebView!
     
+    private var logMsg: String?
+    
     // Prepare UDP socket
     private var udpSocket: GCDAsyncUdpSocket?
     private var tag:Int = 0
@@ -70,9 +72,10 @@ class ViewController: UIViewController {
                     print("Error occur \(error)")
                 }
                 
-                let startMsg = "Udp Echo server started on port \(port)"
-                logInfo(startMsg)
+                logMsg = "Udp Echo server started on port \(port!)"
+                logInfo(logMsg!)
                 
+                logMsg = ""
                 isRunning = true
                 txtfieldPortNum.enabled = false
                 btnStartStop.setTitle("Stop", forState: .Normal)
@@ -84,8 +87,8 @@ class ViewController: UIViewController {
         
         let prefix = "<font color=\"#6A0888\">"
         let suffix = "</font><br/>"
-        let log = "\(prefix)\(suffix)\(msg)\n"
-        let html = "<html><body>\n\(log)\n</body></html>"
+        logMsg = logMsg! + "\(prefix)\(suffix)\(msg)\n"
+        let html = "<html><body>\n\(logMsg!)\n</body></html>"
         
         webView.loadHTMLString(html, baseURL: nil)
     }
